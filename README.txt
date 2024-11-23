@@ -1,113 +1,49 @@
+Luna â€“ AI-Powered Chatbot - 
+Luna is an AI-powered chatbot developed using deep learning and natural language processing (NLP) techniques. It is trained on the Cornell Movie-Dialogs Corpus, a metadata-rich dataset of fictional conversations extracted from movie scripts. Luna can engage in human-like conversations by leveraging an LSTM-based sequence-to-sequence (seq2seq) model.
+
+Key Features - 
+Luna â€“ The Chatbot
+Interactive chatbot capable of generating contextually relevant responses.
+Trained on 100,000 conversational pairs from the Cornell dataset for efficient computation.
+Implements an LSTM-based seq2seq architecture with tokenization, padding, and word embeddings.
 Cornell Movie-Dialogs Corpus
+Conversations:
+220,579 exchanges between 10,292 character pairs.
+Movies:
+Metadata from 617 unique movie titles.
+Characters:
+Gender metadata for 3,774 characters.
+Position in movie credits for 3,321 characters.
+Files in the Repository
+1. Chatbot Files
+chatbot.py: Python script for interacting with Luna.
+train.py: Script to preprocess data and train the chatbot model.
+preproccess.py: Data preprocessing pipeline for the Cornell dataset.
+models/:
+chatbot_model.h5: Trained LSTM model.
+tokenizer.pkl: Tokenizer used for text preprocessing.
+2. Dataset Files
+The Cornell Movie-Dialogs Corpus consists of:
 
-Distributed together with:
+movie_titles_metadata.txt: Metadata for movies.
+movie_characters_metadata.txt: Metadata for movie characters.
+movie_lines.txt: Text of each utterance.
+movie_conversations.txt: Conversation structure (list of utterance IDs).
+raw_script_urls.txt: URLs for raw script sources.
 
-"Chameleons in imagined conversations: A new approach to understanding coordination of linguistic style in dialogs"
-Cristian Danescu-Niculescu-Mizil and Lillian Lee
-Proceedings of the Workshop on Cognitive Modeling and Computational Linguistics, ACL 2011.
+1. Preprocessing
+Tokenization: Converts text into numerical sequences.
+Padding: Ensures uniform input size for the LSTM model.
+Embedding: Maps words into dense vectors that represent their semantic meaning.
+2. LSTM Seq2Seq Model
+Encoder-Decoder architecture:
+Encoder compresses the input into a fixed-length context vector.
+Decoder generates the output word by word, leveraging the context vector.
+3. Training
+Loss Function: Sparse categorical cross-entropy.
+Optimizer: Adam optimizer for efficient training.
 
-(this paper is included in this zip file)
-
-NOTE: If you have results to report on these corpora, please send email to cristian@cs.cornell.edu or llee@cs.cornell.edu so we can add you to our list of people using this data.  Thanks!
-
-
-Contents of this README:
-
-	A) Brief description
-	B) Files description
-	C) Details on the collection procedure
-	D) Contact
-
-
-A) Brief description:
-
-This corpus contains a metadata-rich collection of fictional conversations extracted from raw movie scripts:
-
-- 220,579 conversational exchanges between 10,292 pairs of movie characters
-- involves 9,035 characters from 617 movies
-- in total 304,713 utterances
-- movie metadata included:
-	- genres
-	- release year
-	- IMDB rating
-	- number of IMDB votes
-	- IMDB rating
-- character metadata included:
-	- gender (for 3,774 characters)
-	- position on movie credits (3,321 characters)
-
-
-B) Files description:
-
-In all files the field separator is " +++$+++ "
-
-- movie_titles_metadata.txt
-	- contains information about each movie title
-	- fields: 
-		- movieID, 
-		- movie title,
-		- movie year, 
-	   	- IMDB rating,
-		- no. IMDB votes,
- 		- genres in the format ['genre1','genre2',É,'genreN']
-
-- movie_characters_metadata.txt
-	- contains information about each movie character
-	- fields:
-		- characterID
-		- character name
-		- movieID
-		- movie title
-		- gender ("?" for unlabeled cases)
-		- position in credits ("?" for unlabeled cases) 
-
-- movie_lines.txt
-	- contains the actual text of each utterance
-	- fields:
-		- lineID
-		- characterID (who uttered this phrase)
-		- movieID
-		- character name
-		- text of the utterance
-
-- movie_conversations.txt
-	- the structure of the conversations
-	- fields
-		- characterID of the first character involved in the conversation
-		- characterID of the second character involved in the conversation
-		- movieID of the movie in which the conversation occurred
-		- list of the utterances that make the conversation, in chronological 
-			order: ['lineID1','lineID2',É,'lineIDN']
-			has to be matched with movie_lines.txt to reconstruct the actual content
-
-- raw_script_urls.txt
-	- the urls from which the raw sources were retrieved
-
-C) Details on the collection procedure:
-
-We started from raw publicly available movie scripts (sources acknowledged in 
-raw_script_urls.txt).  In order to collect the metadata necessary for this study 
-and to distinguish between two script versions of the same movie, we automatically
- matched each script with an entry in movie database provided by IMDB (The Internet
- Movie Database; data interfaces available at http://www.imdb.com/interfaces). Some
- amount of manual correction was also involved. When  more than one movie with the same
- title was found in IMBD, the match was made with the most popular title 
-(the one that received most IMDB votes)  
-
-After discarding all movies that could not be matched or that had less than 5 IMDB 
-votes, we were left with 617 unique titles with metadata including genre, release 
-year, IMDB rating and no. of IMDB votes and cast distribution.  We then identified 
-the pairs of characters that interact and separated their conversations automatically 
-using simple data processing heuristics. After discarding all pairs that exchanged 
-less than 5 conversational exchanges there were 10,292 left, exchanging 220,579 
-conversational exchanges (304,713 utterances).  After automatically matching the names 
-of the 9,035 involved characters to the list of cast distribution, we used the 
-gender of each interpreting actor to infer the fictional gender of a subset of 
-3,321 movie characters (we raised the number of gendered 3,774 characters through
- manual annotation). Similarly, we collected the end credit position of a subset 
-of 3,321 characters as a proxy for their status.
-
-
-D) Contact:
-
-Please email any questions to: cristian@cs.cornell.edu (Cristian Danescu-Niculescu-Mizil)
+Future Improvements
+Train on the full Cornell dataset for richer responses.
+Use pre-trained embeddings (e.g., GloVe or Word2Vec).
+Deploy Luna as a web application or API.
